@@ -47,4 +47,5 @@ group :development do
   gem 'quiet_assets'
   gem 'addressable'
   gem 'rest-client'
+  gem 'annotate'
 end

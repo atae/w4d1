@@ -10,7 +10,7 @@ class UsersController < ApplicationController
       render json: @user
     else
       render(
-        json: user.errors.full_messages, status: :unprocessable_entity
+        json: @user.errors.full_messages, status: :unprocessable_entity
       )
     end
   end
@@ -20,20 +20,25 @@ class UsersController < ApplicationController
   end
 
   def update
-
     @user = User.find(params[:id])
-    @user.update!(user_params)
-    render json: @user
+    if @user.update!(user_params)
+      render json: @user
+    else
+      render(
+        json: @user.errors.full_messages, status: :unprocessable_entity
+      )
+    end
   end
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    render json: @user
+    destroyed_user = @user.destroy
+    render json: destroyed_user
   end
 
+private
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:username)
   end
 end
 # {user:{:name => name, :email => email}}
